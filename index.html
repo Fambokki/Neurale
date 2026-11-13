@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B0C0E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NEURALE">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
+<title>NEURALE — Edicola</title>
+<style>
+@font-face{font-family:Anton;src:url(fonts/anton-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Inter;src:url(fonts/inter-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:Inter;src:url(fonts/inter-latin-500-normal.woff2) format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:Inter;src:url(fonts/inter-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+@font-face{font-family:Inter;src:url(fonts/inter-latin-700-normal.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url(fonts/jetbrains-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url(fonts/jetbrains-mono-latin-600-normal.woff2) format("woff2");font-weight:600;font-display:swap}
+:root{
+  --bg:#0B0C0E; --bg2:#141519; --bg3:#1D1F24; --line:#2A2C33;
+  --fg:#F4F4F0; --mut:#9A9CA3; --lime:#C6F432; --orange:#FF5A1F;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.04em}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* testata */
+body{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+header.top{padding-top:env(safe-area-inset-top);position:sticky;top:0;z-index:10;background:rgba(11,12,14,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:14px;height:60px}
+.logo{font-family:Anton,Impact,sans-serif;font-size:30px;letter-spacing:.02em;line-height:1}
+.logo span{color:var(--lime)}
+.tag{font-size:11px;color:var(--mut);text-transform:uppercase;border-left:1px solid var(--line);padding-left:12px}
+.search{margin-left:auto;position:relative;flex:0 1 260px}
+.search input{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:999px;color:var(--fg);padding:9px 14px 9px 34px;font:inherit;font-size:14px;outline:none}
+.search input:focus{border-color:var(--lime)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.6}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:36px;padding:36px 0 28px;align-items:center}
+.cover{position:relative;aspect-ratio:8/11;border-radius:6px;overflow:hidden;background:var(--bg3);box-shadow:0 20px 50px rgba(0,0,0,.55);border:1px solid var(--line)}
+.cover img{width:100%;height:100%;object-fit:cover;display:block}
+.kicker{font-size:12px;color:var(--lime);text-transform:uppercase;margin-bottom:12px}
+.hero h1{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:clamp(34px,5vw,58px);line-height:1.02;margin:0 0 14px;text-transform:uppercase}
+.hero p.sum{color:#CFD0D4;font-size:16px;line-height:1.55;margin:0 0 18px;max-width:560px}
+.calls{list-style:none;padding:0;margin:0 0 24px;display:grid;gap:8px}
+.calls li{font-size:14px;color:#CFD0D4;padding-left:18px;position:relative}
+.calls li:before{content:"";position:absolute;left:0;top:7px;width:8px;height:8px;background:var(--orange)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--lime);color:#0B0C0E;font-weight:700;padding:13px 22px;border-radius:999px;font-size:15px}
+.btn:active{transform:scale(.98)}
+.meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-top:16px}
+
+/* archivio */
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;border-top:1px solid var(--line);padding-top:22px;margin:20px 0 18px}
+.sec-h h2{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:26px;margin:0;text-transform:uppercase}
+.sec-h .mono{font-size:12px;color:var(--mut)}
+.month{font-size:12px;color:var(--mut);text-transform:uppercase;margin:26px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
+.card{text-align:left;display:block}
+.card .cover{box-shadow:0 8px 22px rgba(0,0,0,.45);transition:transform .15s}
+.card:hover .cover{transform:translateY(-3px)}
+.card .d{font-size:11px;color:var(--mut);margin-top:9px}
+.card .t{font-size:13px;font-weight:600;line-height:1.3;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.badge{position:absolute;top:8px;left:8px;background:var(--lime);color:#0B0C0E;font:600 10px "JetBrains Mono",monospace;padding:3px 6px;border-radius:3px}
+.prog{position:absolute;left:0;bottom:0;height:3px;background:var(--orange)}
+.off{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:rgba(11,12,14,.85);display:grid;place-items:center;color:var(--lime)}
+.ib.saved{color:var(--lime);border-color:var(--lime)}
+.ib.busy{opacity:.6}
+.net{display:none;background:var(--orange);color:#0B0C0E;font:600 12px "JetBrains Mono",monospace;text-align:center;padding:6px}
+body.offline .net{display:block}
+.toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--fg);color:#0B0C0E;font-size:13px;font-weight:600;padding:10px 16px;border-radius:999px;z-index:60;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+
+.empty{padding:70px 0 90px;text-align:center}
+.empty .big{font-family:Anton,Impact,sans-serif;font-size:clamp(60px,14vw,150px);line-height:.9;color:var(--bg3);-webkit-text-stroke:1px var(--line)}
+.empty p{color:var(--mut);max-width:440px;margin:18px auto 0;line-height:1.6}
+.empty b{color:var(--fg)}
+footer{color:var(--mut);font-size:12px;padding:40px 0 50px;text-align:center}
+
+/* lettore */
+.reader{position:fixed;inset:0;z-index:50;background:#050506;display:none;flex-direction:column}
+.reader.open{display:flex}
+.rbar{display:flex;align-items:center;gap:10px;height:calc(54px + env(safe-area-inset-top));padding:env(safe-area-inset-top) 12px 0;border-bottom:1px solid var(--line);background:var(--bg);flex:none}
+.rbar .ttl{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:14px;font-weight:600}
+.rbar .ttl small{display:block;font:400 11px "JetBrains Mono",monospace;color:var(--mut)}
+.ib{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--bg2);border:1px solid var(--line);flex:none}
+.ib:disabled{opacity:.35}
+.seg{display:flex;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:3px;flex:none}
+.seg button{font-size:12px;padding:6px 10px;border-radius:999px;color:var(--mut)}
+.seg button.on{background:var(--fg);color:#0B0C0E}
+.pages{flex:1;min-height:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.pages::-webkit-scrollbar{display:none}
+.pg{flex:0 0 100%;height:100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;padding:14px}
+.pg img{max-width:100%;max-height:100%;aspect-ratio:8/11;object-fit:contain;background:#111;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+.pages.vert{flex-direction:column;overflow-x:hidden;overflow-y:auto;scroll-snap-type:none;align-items:center}
+.pages.vert .pg{flex:none;height:auto;width:100%;max-width:820px;padding:8px 10px}
+.pages.vert .pg img{width:100%;max-height:none;height:auto}
+.rfoot{flex:none;display:flex;align-items:center;gap:10px;padding:8px 12px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--bg)}
+.toc{flex:1;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc button{flex:none;font:500 11px "JetBrains Mono",monospace;padding:7px 10px;border-radius:999px;background:var(--bg2);border:1px solid var(--line);color:var(--mut);white-space:nowrap}
+.toc button.on{border-color:var(--lime);color:var(--lime)}
+.cnt{font:600 12px "JetBrains Mono",monospace;color:var(--fg);flex:none;min-width:52px;text-align:center}
+
+@media (max-width:720px){
+  .tag{display:none}
+  header.top .wrap{gap:10px}
+  .search{flex:1 1 auto}
+  .hero{grid-template-columns:1fr;gap:22px;padding:22px 0}
+  .hero .cover{max-width:300px;margin:0 auto;width:100%}
+  .grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .seg{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="logo">NEURALE<span>.</span></div>
+  <div class="tag mono">Edicola · tutte le edizioni</div>
+  <label class="search">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Cerca nelle edizioni" autocomplete="off">
+  </label>
+</div></header>
+
+<div class="net">Sei offline · puoi leggere le edizioni salvate</div>
+<main class="wrap" id="main"></main>
+<div class="toast" id="toast"></div>
+<footer class="mono">NEURALE · rivista quotidiana su IA, hardware, sistemi operativi e gaming</footer>
+
+<div class="reader" id="reader" role="dialog" aria-modal="true">
+  <div class="rbar">
+    <button class="ib" id="rClose" aria-label="Chiudi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="ttl" id="rTtl"></div>
+    <div class="seg"><button id="mH" class="on">Sfoglia</button><button id="mV">Scorri</button></div>
+    <button class="ib" id="rSave" aria-label="Salva per leggere offline" title="Salva per leggere offline"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></button>
+    <button class="ib" id="rPrev" aria-label="Edizione precedente" title="Edizione precedente"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg></button>
+    <button class="ib" id="rNext" aria-label="Edizione successiva" title="Edizione successiva"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+  </div>
+  <div class="pages" id="pages"></div>
+  <div class="rfoot"><div class="toc" id="toc"></div><div class="cnt" id="cnt">1/13</div></div>
+</div>
+
+<script>
+const SEZIONI=["Copertina","Storia di copertina","Cinque notizie","Prodotti e numeri","OpenAI","Anthropic","Gemini e Meta","Open source","GitHub","Hardware","Sistemi operativi","Gaming","Il quadro"];
+const MESI=["gennaio","febbraio","marzo","aprile","maggio","giugno","luglio","agosto","settembre","ottobre","novembre","dicembre"];
+const GIORNI=["domenica","lunedì","martedì","mercoledì","giovedì","venerdì","sabato"];
+let EDS=[], cur=null, mode="h";
+
+const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function dataLunga(iso){const d=new Date(iso+"T12:00:00");return GIORNI[d.getDay()]+" "+d.getDate()+" "+MESI[d.getMonth()]+" "+d.getFullYear()}
+function dataBreve(iso){const d=new Date(iso+"T12:00:00");return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+"."+d.getFullYear()}
+const lastPage=id=>store.get("neu:p:"+id,0);
+
+async function load(){
+  try{
+    const r=await fetch("editions.json?v="+Date.now(),{cache:"no-store"});
+    const j=await r.json();
+    EDS=(j.editions||[]).filter(e=>e&&e.id&&Array.isArray(e.pagine)&&e.pagine.length).sort((a,b)=>b.id.localeCompare(a.id));
+  }catch(e){EDS=[]}
+  await checkSaved();
+  render();
+  route();
+  // l'ultima edizione viene salvata da sola per la lettura offline
+  if(EDS[0] && navigator.onLine && !SAVED.has(EDS[0].id)) saveEd(EDS[0],true);
+}
+
+/* lettura offline */
+const CACHE="neurale-edizioni";
+let SAVED=new Set();
+const hasCache=()=>"caches" in window;
+async function checkSaved(){
+  SAVED=new Set(); if(!hasCache()) return;
+  try{
+    const c=await caches.open(CACHE);
+    for(const e of EDS){
+      let ok=true;
+      for(const u of e.pagine){ if(!(await c.match(new URL(u,location.href).href))){ok=false;break} }
+      if(ok) SAVED.add(e.id);
+    }
+  }catch(err){}
+}
+async function saveEd(e,quiet){
+  if(!hasCache()){ if(!quiet) toast("Questo browser non permette il salvataggio offline"); return }
+  const b=document.getElementById("rSave"); if(cur&&cur.id===e.id) b.classList.add("busy");
+  try{
+    const c=await caches.open(CACHE);
+    await c.addAll([...e.pagine, ...(e.thumb?[e.thumb]:[])]);
+    SAVED.add(e.id); if(!quiet) toast("Edizione salvata: la puoi leggere anche offline");
+  }catch(err){ if(!quiet) toast("Salvataggio non riuscito, riprova con la connessione") }
+  b.classList.remove("busy"); updSave(); if(!cur) render();
+}
+async function unsaveEd(e){
+  try{const c=await caches.open(CACHE); for(const u of [...e.pagine, ...(e.thumb?[e.thumb]:[])]) await c.delete(new URL(u,location.href).href)}catch(err){}
+  SAVED.delete(e.id); updSave(); toast("Edizione rimossa dalla memoria offline");
+}
+function updSave(){const b=document.getElementById("rSave");const on=cur&&SAVED.has(cur.id);b.classList.toggle("saved",!!on);b.title=on?"Salvata offline (tocca per rimuovere)":"Salva per leggere offline"}
+let tt; function toast(m){const t=document.getElementById("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2600)}
+document.getElementById("rSave").onclick=()=>{if(!cur) return; SAVED.has(cur.id)?unsaveEd(cur):saveEd(cur,false)};
+function netState(){document.body.classList.toggle("offline",!navigator.onLine)}
+window.addEventListener("online",()=>{netState();load()}); window.addEventListener("offline",netState); netState();
+if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(()=>{}) }
+
+function cardHTML(e){
+  const p=lastPage(e.id), n=e.pagine.length, letta=store.get("neu:r:"+e.id,false);
+  return `<button class="card" data-id="${esc(e.id)}">
+    <div class="cover"><img loading="lazy" src="${esc(e.thumb||e.pagine[0])}" alt="Copertina NEURALE ${esc(dataBreve(e.id))}">
+    ${!letta?'<span class="badge">NUOVO</span>':''}
+    ${p>0&&p<n-1?`<span class="prog" style="width:${Math.round((p+1)/n*100)}%"></span>`:''}
+    ${SAVED.has(e.id)?'<span class="off" title="Disponibile offline"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg></span>':''}</div>
+    <div class="d mono">N. ${esc(e.numero)} · ${esc(dataBreve(e.id))}</div>
+    <div class="t">${esc(e.titolo)}</div></button>`;
+}
+
+function render(){
+  const q=document.getElementById("q").value.trim().toLowerCase();
+  const main=document.getElementById("main");
+  if(!EDS.length){
+    main.innerHTML=`<div class="empty"><div class="big">N. 318</div>
+      <p><b>La prima edizione arriva domani mattina.</b><br>Ogni giorno, verso le 7:30, il nuovo numero di NEURALE comparirà qui da solo: niente più PDF sparsi sul telefono.</p></div>`;
+    if(!navigator.onLine) main.querySelector("p").innerHTML="<b>Sei offline.</b><br>Riapri l'app con la connessione per scaricare le edizioni.";
+    return;
+  }
+  const list=q?EDS.filter(e=>[e.titolo,e.sommario,e.stile,(e.richiami||[]).join(" "),dataLunga(e.id),"n. "+e.numero].join(" ").toLowerCase().includes(q)):EDS;
+  let h="";
+  if(!q){
+    const e=EDS[0];
+    h+=`<section class="hero">
+      <button class="cover" data-id="${esc(e.id)}" aria-label="Apri l'ultima edizione"><img src="${esc(e.pagine[0])}" alt="Copertina dell'ultima edizione"></button>
+      <div>
+        <div class="kicker mono">Ultima edizione · ${esc(dataLunga(e.id))}</div>
+        <h1>${esc(e.titolo)}</h1>
+        ${e.sommario?`<p class="sum">${esc(e.sommario)}</p>`:""}
+        ${(e.richiami||[]).length?`<ul class="calls">${e.richiami.slice(0,4).map(c=>`<li>${esc(c)}</li>`).join("")}</ul>`:""}
+        <button class="btn" data-id="${esc(e.id)}">${lastPage(e.id)>0?"Riprendi da pag. "+(lastPage(e.id)+1):"Leggi l'edizione"} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <div class="meta mono"><span>N. ${esc(e.numero)}</span><span>${e.pagine.length} pagine</span>${e.stile?`<span>Grafica: ${esc(e.stile)}</span>`:""}</div>
+      </div></section>`;
+  }
+  h+=`<div class="sec-h"><h2>${q?"Risultati":"Archivio"}</h2><span class="mono">${list.length} ${list.length===1?"edizione":"edizioni"}</span></div>`;
+  if(!list.length){h+=`<p style="color:var(--mut)">Nessuna edizione trovata per “${esc(q)}”.</p>`}
+  let lastM="";
+  let buf=[];
+  const flush=()=>{if(buf.length){h+=`<div class="grid">${buf.join("")}</div>`;buf=[]}};
+  for(const e of list){
+    const d=new Date(e.id+"T12:00:00"), m=MESI[d.getMonth()]+" "+d.getFullYear();
+    if(m!==lastM){flush();h+=`<div class="month mono">${m}</div>`;lastM=m}
+    buf.push(cardHTML(e));
+  }
+  flush();
+  main.innerHTML=h;
+}
+
+/* lettore */
+const R=document.getElementById("reader"), P=document.getElementById("pages"), TOC=document.getElementById("toc"), CNT=document.getElementById("cnt");
+function pageEls(){return [...P.children]}
+function openEd(id,page){
+  const e=EDS.find(x=>x.id===id); if(!e) return;
+  cur=e;
+  document.getElementById("rTtl").innerHTML=`${esc(e.titolo)}<small>N. ${esc(e.numero)} · ${esc(dataLunga(e.id))}</small>`;
+  P.innerHTML=e.pagine.map((src,i)=>`<div class="pg"><img ${i<3?"":'loading="lazy"'} src="${esc(src)}" alt="Pagina ${i+1}"></div>`).join("");
+  const names=(e.sezioni&&e.sezioni.length===e.pagine.length)?e.sezioni:e.pagine.map((_,i)=>SEZIONI[i]||("Pag. "+(i+1)));
+  TOC.innerHTML=names.map((n,i)=>`<button data-p="${i}">${String(i+1).padStart(2,"0")} ${esc(n)}</button>`).join("");
+  const idx=EDS.indexOf(e);
+  document.getElementById("rPrev").disabled=idx>=EDS.length-1;
+  document.getElementById("rNext").disabled=idx<=0;
+  R.classList.add("open"); document.body.style.overflow="hidden"; updSave();
+  store.set("neu:r:"+e.id,true);
+  const start=page!=null?page:lastPage(e.id);
+  requestAnimationFrame(()=>{goPage(start,false);setActive(start)});
+  if(location.hash!=="#ed-"+e.id) history.replaceState(null,"","#ed-"+e.id);
+}
+function closeEd(){R.classList.remove("open");document.body.style.overflow="";cur=null;if(location.hash) history.replaceState(null,"",location.pathname+location.search);render()}
+function goPage(i,smooth=true){
+  const els=pageEls(); i=Math.max(0,Math.min(els.length-1,i)); const el=els[i]; if(!el) return;
+  if(mode==="h") P.scrollTo({left:el.offsetLeft,behavior:smooth?"smooth":"auto"});
+  else P.scrollTo({top:el.offsetTop-P.offsetTop,behavior:smooth?"smooth":"auto"});
+}
+function curIndex(){
+  const els=pageEls(); if(!els.length) return 0;
+  if(mode==="h") return Math.round(P.scrollLeft/P.clientWidth);
+  const mid=P.scrollTop+P.clientHeight*.35; let k=0;
+  els.forEach((el,i)=>{if(el.offsetTop-P.offsetTop<=mid) k=i}); return k;
+}
+function setActive(i){
+  if(!cur) return;
+  CNT.textContent=(i+1)+"/"+cur.pagine.length;
+  [...TOC.children].forEach((b,k)=>b.classList.toggle("on",k===i));
+  const b=TOC.children[i]; if(b) b.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});
+  store.set("neu:p:"+cur.id,i);
+}
+let st; P.addEventListener("scroll",()=>{clearTimeout(st);st=setTimeout(()=>setActive(curIndex()),80)},{passive:true});
+TOC.addEventListener("click",ev=>{const b=ev.target.closest("button");if(b) goPage(+b.dataset.p)});
+function setMode(m){const i=curIndex();mode=m;store.set("neu:mode",m);P.classList.toggle("vert",m==="v");document.getElementById("mH").classList.toggle("on",m==="h");document.getElementById("mV").classList.toggle("on",m==="v");requestAnimationFrame(()=>goPage(i,false))}
+document.getElementById("mH").onclick=()=>setMode("h");
+document.getElementById("mV").onclick=()=>setMode("v");
+document.getElementById("rClose").onclick=closeEd;
+document.getElementById("rPrev").onclick=()=>{const i=EDS.indexOf(cur);if(EDS[i+1]) openEd(EDS[i+1].id,0)};
+document.getElementById("rNext").onclick=()=>{const i=EDS.indexOf(cur);if(EDS[i-1]) openEd(EDS[i-1].id,0)};
+document.addEventListener("keydown",ev=>{
+  if(!cur) return;
+  if(ev.key==="Escape") closeEd();
+  else if(ev.key==="ArrowRight"||ev.key==="PageDown"){ev.preventDefault();goPage(curIndex()+1)}
+  else if(ev.key==="ArrowLeft"||ev.key==="PageUp"){ev.preventDefault();goPage(curIndex()-1)}
+});
+window.addEventListener("resize",()=>{if(cur) goPage(curIndex(),false)});
+
+document.getElementById("main").addEventListener("click",ev=>{const b=ev.target.closest("[data-id]");if(b) openEd(b.dataset.id)});
+document.getElementById("q").addEventListener("input",render);
+function route(){const m=location.hash.match(/^#ed-(\d{4}-\d{2}-\d{2})$/);if(m&&EDS.find(e=>e.id===m[1])) openEd(m[1]);else if(cur&&!m) closeEd()}
+window.addEventListener("hashchange",route);
+if(store.get("neu:mode","h")==="v" && window.innerWidth>720){mode="v";P.classList.add("vert");document.getElementById("mH").classList.remove("on");document.getElementById("mV").classList.add("on")}
+load();
+</script>
+</body>
+</html>
