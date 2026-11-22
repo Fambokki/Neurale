@@ -19,6 +19,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import java.util.concurrent.Executors
@@ -102,6 +104,13 @@ class ReaderActivity : AppCompatActivity() {
         }
         root.addView(top, FrameLayout.LayoutParams(-1, -2, Gravity.TOP))
         setContentView(root)
+        // Android 15: la barra in alto scende sotto la barra di stato del telefono
+        ViewCompat.setOnApplyWindowInsetsListener(root) { _, insets ->
+            val b = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            top.setPadding(dp(10) + b.left, dp(8) + b.top, dp(14) + b.right, dp(8))
+            pager.setPadding(b.left, 0, b.right, b.bottom)
+            insets
+        }
 
         val start = State.lastPage(this, ed.id).coerceIn(0, (pageCount - 1).coerceAtLeast(0))
         counter.text = "${start + 1}/$pageCount"

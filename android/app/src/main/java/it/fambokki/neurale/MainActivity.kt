@@ -26,6 +26,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.time.format.TextStyle
@@ -102,6 +104,13 @@ class MainActivity : AppCompatActivity() {
         content.addView(empty, FrameLayout.LayoutParams(-1, -1))
         root.addView(content, LinearLayout.LayoutParams(-1, 0, 1f))
         setContentView(root)
+        // Android 15: l'app va a tutto schermo, quindi lascio spazio a barra di stato e barra di navigazione
+        ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
+            val b = insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout())
+            v.setPadding(b.left, b.top, b.right, 0)
+            list.setPadding(dp(14), dp(8), dp(14), dp(40) + b.bottom)
+            insets
+        }
 
         refresh()
         handleIntent(intent)
