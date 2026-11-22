@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg">#0B0C0E</color>
+    <color name="bg2">#141519</color>
+    <color name="bg3">#1D1F24</color>
+    <color name="line">#2A2C33</color>
+    <color name="fg">#F4F4F0</color>
+    <color name="mut">#9A9CA3</color>
+    <color name="lime">#C6F432</color>
+    <color name="orange">#FF5A1F</color>
+
+    <style name="Theme.Neurale" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="colorPrimary">@color/lime</item>
+        <item name="colorAccent">@color/lime</item>
+        <item name="android:textColor">@color/fg</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.Neurale.Reader" parent="Theme.Neurale">
+        <item name="android:windowBackground">#050506</item>
+        <item name="android:statusBarColor">#050506</item>
+        <item name="android:navigationBarColor">#050506</item>
+    </style>
+</resources>

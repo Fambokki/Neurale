@@ -1,0 +1,33 @@
+name: App Android
+
+on:
+  push:
+    branches: [main]
+    paths: ['android/**', '.github/workflows/android.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.3'
+      - name: Compila l'APK
+        working-directory: android
+        run: gradle assembleRelease --no-daemon --stacktrace
+      - name: Pubblica la release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cp android/app/build/outputs/apk/release/app-release.apk NEURALE.apk
+          gh release delete app --yes --cleanup-tag || true
+          gh release create app NEURALE.apk --title "NEURALE per Android (build ${{ github.run_number }})" --notes "App Android dell'edicola NEURALE. Scarica NEURALE.apk e installala sul telefono." --latest
