@@ -114,6 +114,27 @@ class MainActivity : AppCompatActivity() {
 
         refresh()
         handleIntent(intent)
+        Sync.schedule(this)
+        if (Build.VERSION.SDK_INT >= 33 &&
+            checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1)
+        }
+    }
+
+    /** Controlla se nel repository c'è un'edizione nuova e la scarica. */
+    private fun aggiorna() {
+        io.execute {
+            val nuove = Sync.run(this)
+            main.post {
+                if (nuove.isNotEmpty()) {
+                    covers.evictAll()
+                    refresh()
+                    Toast.makeText(this,
+                        if (nuove.size == 1) "Nuova edizione: ${nuove[0].etichetta}" else "${nuove.size} nuove edizioni",
+                        Toast.LENGTH_LONG).show()
+                } else refresh()
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -125,6 +146,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         refresh()
+        aggiorna()
     }
 
     private fun handleIntent(i: Intent?) {
@@ -246,7 +268,10 @@ class MainActivity : AppCompatActivity() {
             loadCover(e, img)
             badge.visibility = if (State.isRead(this@MainActivity, e.id)) View.GONE else View.VISIBLE
             line1.text = e.etichetta
-            line2.text = e.date?.let { it.dayOfWeek.getDisplayName(TextStyle.FULL, Edition.IT) } ?: "importata"
+            val t = Meta.title(this@MainActivity, e.id)
+            line2.text = if (t.isNotEmpty()) t else (e.date?.let { it.dayOfWeek.getDisplayName(TextStyle.FULL, Edition.IT) } ?: "importata")
+            line2.maxLines = 2
+            line2.ellipsize = android.text.TextUtils.TruncateAt.END
             itemView.setOnClickListener { apri(e) }
             itemView.setOnLongClickListener { chiediElimina(e); true }
         }
@@ -257,10 +282,15 @@ class MainActivity : AppCompatActivity() {
         private val kicker: TextView = v.findViewWithTag("kicker")
         private val title: TextView = v.findViewWithTag("title")
         private val btn: TextView = v.findViewWithTag("btn")
+        private val sum: TextView = v.findViewWithTag("sum")
         fun bind(e: Edition) {
             loadCover(e, img)
-            kicker.text = "ULTIMA EDIZIONE"
-            title.text = e.dataLunga.uppercase(Edition.IT) + (e.numero?.let { "\nN. $it" } ?: "")
+            val t = Meta.title(this@MainActivity, e.id)
+            kicker.text = "ULTIMA EDIZIONE · " + e.etichetta
+            title.text = if (t.isNotEmpty()) t.uppercase(Edition.IT) else e.dataLunga.uppercase(Edition.IT)
+            sum.text = listOf(Meta.summary(this@MainActivity, e.id), Meta.style(this@MainActivity, e.id).let { if (it.isNotEmpty()) "Grafica: $it" else "" })
+                .filter { it.isNotEmpty() }.joinToString("\n")
+            sum.visibility = if (sum.text.isNullOrEmpty()) View.GONE else View.VISIBLE
             val p = State.lastPage(this@MainActivity, e.id)
             btn.text = if (p > 0) "Riprendi da pag. ${p + 1}  →" else "Leggi l'edizione  →"
             btn.setOnClickListener { apri(e) }
@@ -338,8 +368,12 @@ class MainActivity : AppCompatActivity() {
             letterSpacing = 0.08f; setPadding(0, dp(18), 0, dp(4)); gravity = Gravity.CENTER
         })
         col.addView(TextView(this).apply {
-            tag = "title"; typeface = anton; setTextColor(C.FG); setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
+            tag = "title"; typeface = anton; setTextColor(C.FG); setTextSize(TypedValue.COMPLEX_UNIT_SP, 26f)
             gravity = Gravity.CENTER; setLineSpacing(0f, 1.0f)
+        })
+        col.addView(TextView(this).apply {
+            tag = "sum"; setTextColor(0xFFCFD0D4.toInt()); setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            gravity = Gravity.CENTER; setLineSpacing(0f, 1.25f); setPadding(dp(8), dp(10), dp(8), 0)
         })
         col.addView(pill("Leggi l'edizione  →", C.LIME, C.BG).apply {
             tag = "btn"; setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
@@ -362,7 +396,7 @@ class MainActivity : AppCompatActivity() {
             gravity = Gravity.CENTER; setPadding(0, dp(12), 0, dp(10))
         })
         addView(TextView(this@MainActivity).apply {
-            text = "Quando arriva la rivista, apri il PDF e scegli Condividi → NEURALE (oppure Apri con → NEURALE).\n\nPer le edizioni già scaricate tocca “+ Aggiungi” e selezionale anche tutte insieme dalla cartella Download."
+            text = "Ogni mattina la nuova edizione arriva qui da sola, con una notifica.\n\nPer le edizioni già scaricate tocca “+ Aggiungi” e selezionale dalla cartella Download, oppure apri un PDF e scegli Condividi → NEURALE."
             setTextColor(C.MUT); setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f); gravity = Gravity.CENTER
             setLineSpacing(0f, 1.3f)
         })

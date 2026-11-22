@@ -84,21 +84,30 @@ object Library {
         val date = parseDate(name)
         val id = date?.toString() ?: ("importata-" + System.currentTimeMillis())
         val tmp = File(ctx.cacheDir, "import-${System.nanoTime()}.pdf")
-        try {
+        return try {
             ctx.contentResolver.openInputStream(uri)?.use { input ->
                 tmp.outputStream().use { out -> input.copyTo(out) }
             } ?: return null
-            if (pageCount(tmp) <= 0) { tmp.delete(); return null }
-            val dest = File(pdfDir(ctx), "$id.pdf")
-            if (dest.exists()) dest.delete()
-            if (!tmp.renameTo(dest)) { tmp.copyTo(dest, overwrite = true); tmp.delete() }
-            val cover = File(coverDir(ctx), "$id.jpg")
-            renderCover(dest, cover)
-            return Edition(id, date, dest, cover, dest.lastModified())
+            Meta.unmarkDeleted(ctx, id)
+            importFile(ctx, tmp, id)
         } catch (e: Exception) {
+            null
+        } finally {
             tmp.delete()
-            return null
         }
+    }
+
+    /** Archivia un PDF già scaricato con l'id indicato (AAAA-MM-GG). */
+    fun importFile(ctx: Context, src: File, id: String): Edition? {
+        if (pageCount(src) <= 0) return null
+        val dest = File(pdfDir(ctx), "$id.pdf")
+        val part = File(pdfDir(ctx), "$id.part")
+        src.copyTo(part, overwrite = true)
+        if (dest.exists()) dest.delete()
+        if (!part.renameTo(dest)) { part.copyTo(dest, overwrite = true); part.delete() }
+        val cover = File(coverDir(ctx), "$id.jpg")
+        renderCover(dest, cover)
+        return Edition(id, parseDate(id), dest, cover, dest.lastModified())
     }
 
     fun pageCount(f: File): Int = try {
@@ -131,6 +140,7 @@ object Library {
         e.file.delete()
         e.cover.delete()
         State.forget(ctx, e.id)
+        Meta.markDeleted(ctx, e.id)
     }
 }
 
