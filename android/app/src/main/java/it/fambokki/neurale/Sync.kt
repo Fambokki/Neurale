@@ -48,11 +48,14 @@ object Sync {
                 val pdf = o.optString("pdf")
                 if (id.isEmpty() || pdf.isEmpty()) continue
                 Meta.save(ctx, id, o.optString("titolo"), o.optString("sommario"), o.optString("stile"))
-                if (id in have || Meta.isDeleted(ctx, id)) continue
+                val rev = o.optLong("rev", 0L)
+                if (Meta.isDeleted(ctx, id)) continue
+                // già presente e aggiornata: niente da fare; se l'edizione è stata corretta (rev più alto) la riscarico
+                if (id in have && Meta.rev(ctx, id) >= rev) continue
                 val bytes = get(BASE + pdf) ?: continue
                 val tmp = File(ctx.cacheDir, "sync-$id.pdf")
                 tmp.writeBytes(bytes)
-                Library.importFile(ctx, tmp, id)?.let { nuove += it }
+                Library.importFile(ctx, tmp, id)?.let { nuove += it; Meta.setRev(ctx, id, rev) }
                 tmp.delete()
             }
             return nuove
@@ -123,4 +126,6 @@ object Meta {
     fun markDeleted(ctx: Context, id: String) = p(ctx).edit().putBoolean("d:$id", true).apply()
     fun unmarkDeleted(ctx: Context, id: String) = p(ctx).edit().remove("d:$id").apply()
     fun isDeleted(ctx: Context, id: String) = p(ctx).getBoolean("d:$id", false)
+    fun rev(ctx: Context, id: String) = p(ctx).getLong("v:$id", 0L)
+    fun setRev(ctx: Context, id: String, v: Long) = p(ctx).edit().putLong("v:$id", v).apply()
 }

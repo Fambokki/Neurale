@@ -4,7 +4,7 @@
 Uso: python3 automazione/pubblica.py /home/claude/neurale-lavoro/out
 (la cartella deve contenere NEURALE-AAAA-MM-GG.pdf e meta.json)
 """
-import json, os, shutil, subprocess, sys
+import json, os, shutil, subprocess, sys, time
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,6 +34,7 @@ def main(out):
     eds = [e for e in data.get("editions", []) if e.get("id") != eid]
     entry = {k: meta.get(k) for k in ("id", "numero", "titolo", "sommario", "richiami", "stile") if meta.get(k) is not None}
     entry["pdf"] = rel
+    entry["rev"] = int(time.time())  # cambia a ogni pubblicazione: l'app riscarica le edizioni corrette
     eds.append(entry)
     eds.sort(key=lambda e: e.get("id", ""), reverse=True)
     data["editions"] = eds
