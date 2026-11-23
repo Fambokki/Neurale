@@ -1,1 +1,18 @@
-{"editions":[]}
+{
+ "editions": [
+  {
+   "id": "2026-11-23",
+   "numero": 327,
+   "titolo": "La congettura di Riemann passa il controllo del computer",
+   "sommario": "Levent Alpöge, matematico di Anthropic, ha pubblicato una dimostrazione della congettura di Riemann sviluppata con Claude e scritta in Lean (17 milioni di righe); le comunità Lean e Mathlib l'hanno certificata il 21 novembre e una ricostruzione isolata l'ha riprodotta il 22. Manca ancora una spiegazione matematica leggibile e il Clay Institute considera il problema aperto.",
+   "richiami": [
+    "Anthropic in Borsa: +17% e poi -8,5%",
+    "Frostbite, la CPU progettata dagli agenti",
+    "Windows Baseline Protection: le app ti esaminano",
+    "Phantom Blade Zero perde Denuvo"
+   ],
+   "stile": "Ispirazione MIT Technology Review",
+   "pdf": "pdf/NEURALE-2026-11-23.pdf"
+  }
+ ]
+}
