@@ -1,6 +1,21 @@
 {
  "editions": [
   {
+   "id": "2026-11-24",
+   "numero": 328,
+   "titolo": "Nvidia richiama Jensen Huang: il ritorno dopo undici giorni",
+   "sommario": "Il 23 novembre il board di Nvidia ha reintegrato all'unanimità Jensen Huang come presidente e CEO, undici giorni dopo le dimissioni, citando pareri di alti funzionari USA secondo cui non ci sono rischi per la sicurezza nazionale. Il titolo è salito di oltre il 30%, mentre restano aperte l'indagine interna e le verifiche federali.",
+   "richiami": [
+    "Claude Ship: agenti che rivedono, correggono e approvano il codice",
+    "Frostbite: una CPU progettata dagli agenti, ancora solo in simulazione",
+    "Windows 11 26H2 arriva da solo sui PC personali",
+    "GTA VI e il porting non ufficiale: cronaca e trappole"
+   ],
+   "stile": "Ispirazione Scientific American anni '50",
+   "pdf": "pdf/NEURALE-2026-11-24.pdf",
+   "rev": 1795501842
+  },
+  {
    "id": "2026-11-23",
    "numero": 327,
    "titolo": "La congettura di Riemann passa il controllo del computer",
