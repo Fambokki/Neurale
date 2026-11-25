@@ -1,6 +1,21 @@
 {
  "editions": [
   {
+   "id": "2026-11-25",
+   "numero": 329,
+   "titolo": "Il rimbalzo di un giorno",
+   "sommario": "L'entusiasmo per il reintegro di Jensen Huang alla guida di Nvidia è durato una seduta: il 24 novembre il Nasdaq ha perso l'1,48% e Nvidia il 5,86%, e il 25 mattina la vendita si è spostata sui titoli asiatici dei chip, con SoftBank giù del 10% e Advantest del 12,26%. Tornano i dubbi sul rendimento della spesa in intelligenza artificiale.",
+   "richiami": [
+    "OpenAI dichiara proteine progettate da GPT-6: 35 leganti su 322 hanno legato in laboratorio",
+    "Claude Ship porta gli agenti ad approvare il codice, e gli artefatti diventano app per Mac e Windows",
+    "Microsoft dichiara \"Code Red\": dietro il blocco di Microsoft 365 un difetto di Windows di luglio",
+    "L'anticheat esce dal nucleo: modalità a richiesta da Riot e mille sanzioni annullate su Apex Legends"
+   ],
+   "stile": "Ispirazione riviste editoriali giapponesi (tipo Brutus / Casa Brutus)",
+   "pdf": "pdf/NEURALE-2026-11-25.pdf",
+   "rev": 1795589492
+  },
+  {
    "id": "2026-11-24",
    "numero": 328,
    "titolo": "Nvidia richiama Jensen Huang: il ritorno dopo undici giorni",
