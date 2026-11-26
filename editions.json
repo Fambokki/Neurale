@@ -1,6 +1,21 @@
 {
  "editions": [
   {
+   "id": "2026-11-26",
+   "numero": 330,
+   "titolo": "322 provette, 35 agganci: GPT-6 disegna proteine",
+   "sommario": "Il 24 novembre OpenAI ha pubblicato i risultati di laboratorio dei modelli GPT-6 sulla progettazione di proteine: su 322 leganti nuovi, costruiti contro cinque bersagli ragionando e scrivendo codice senza modelli biologici specializzati, 35 si sono agganciati (10,9%). Nella previsione della struttura dalla sola sequenza il modello resta però molto indietro rispetto agli strumenti dedicati.",
+   "richiami": [
+    "Anthropic in Borsa sotto il prezzo di debutto (p. 6)",
+    "Torna Huang, voci di tagli alle GeForce (p. 10)",
+    "Linux 7.4 da record, Windows ripulisce la ricerca (p. 11)",
+    "GTA VI da 3,79 miliardi, Denuvo ancora aggirato (p. 12)"
+   ],
+   "stile": "Ispirazione Wired anni '90 / techno",
+   "pdf": "pdf/NEURALE-2026-11-26.pdf",
+   "rev": 1795674930
+  },
+  {
    "id": "2026-11-25",
    "numero": 329,
    "titolo": "Il rimbalzo di un giorno",
