@@ -1,6 +1,21 @@
 {
  "editions": [
   {
+   "id": "2026-11-27",
+   "numero": 331,
+   "titolo": "Un milione di cervelli in orbita",
+   "sommario": "Il 25 novembre la FCC ha autorizzato Starmind, la costellazione fino a un milione di satelliti con chip IA con cui SpaceX vuole portare il calcolo nello spazio, con scadenze dal 2033 al 2040. Restano i dubbi dei fisici su dissipazione del calore, detriti e astronomia.",
+   "richiami": [
+    "Claude riscrive la propria API in Rust: il 70% di processore in meno",
+    "Huawei sfida Samsung e SK Hynix sulla memoria HBM",
+    "Il bug dei driver che consuma gli SSD mentre il PC riposa",
+    "GTA 6 \"ricompilato\" su PC: cronaca di un caso"
+   ],
+   "stile": "Ispirazione The New Yorker",
+   "pdf": "pdf/NEURALE-2026-11-27.pdf",
+   "rev": 1795761064
+  },
+  {
    "id": "2026-11-26",
    "numero": 330,
    "titolo": "322 provette, 35 agganci: GPT-6 disegna proteine",
