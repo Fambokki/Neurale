@@ -32,7 +32,7 @@ def main(out):
     path = os.path.join(REPO, "editions.json")
     data = json.load(open(path, encoding="utf-8")) if os.path.exists(path) else {"editions": []}
     eds = [e for e in data.get("editions", []) if e.get("id") != eid]
-    entry = {k: meta.get(k) for k in ("id", "numero", "titolo", "sommario", "richiami", "stile") if meta.get(k) is not None}
+    entry = {k: meta.get(k) for k in ("id", "numero", "titolo", "sommario", "richiami", "stile", "hardware", "sistemi", "gaming") if meta.get(k) is not None}
     entry["pdf"] = rel
     entry["rev"] = int(time.time())  # cambia a ogni pubblicazione: l'app riscarica le edizioni corrette
     eds.append(entry)
