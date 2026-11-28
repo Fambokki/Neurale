@@ -1,6 +1,24 @@
 {
  "editions": [
   {
+   "id": "2026-11-28",
+   "numero": 332,
+   "titolo": "Fermo in dogana: Nvidia sospende i server verso il Sud-Est asiatico",
+   "sommario": "Dopo l'entrata in vigore (19 novembre) della regola BIS sull'accesso remoto ai chip avanzati, Nvidia ha chiesto a Dell e Supermicro di fermare le spedizioni di server verso Malesia, Singapore, Thailandia e Indonesia (FT, ripreso da Reuters e The Next Web). Il giorno dopo Bloomberg ha documentato un rack GB300 NVL72 in un sito di Shanghai legato a Megaspeed.",
+   "richiami": [
+    "Anthropic: Claude ha riscritto l'API Messages in Rust, -70% di CPU per richiesta",
+    "GPT-6.2: corretto l'errore di fatturazione, limiti raggiunti fino al 40% prima",
+    "Intel Nova Lake-S: le indiscrezioni sul lancio di febbraio",
+    "Denuvo contro voices38: cade anche Phantom Blade Zero"
+   ],
+   "stile": "Ispirazione The Economist",
+   "hardware": "Huawei presenterà a febbraio un progetto di memoria HBM con densità di pin dati doppia rispetto a Samsung e SK Hynix, mentre trapelano (indiscrezione) le specifiche dei desktop Intel Nova Lake-S su socket LGA 1954.",
+   "sistemi": "L'aggiornamento cumulativo di novembre di Windows 11 porta nuove funzioni (menu contestuale, ricostruzione dal cloud, HVCI esteso) ma Microsoft ha confermato problemi di stampa, attivazione e installazione.",
+   "gaming": "Il cracker voices38, citato in giudizio da Irdeto/Denuvo e ancora non identificato, ha rimosso Denuvo da Phantom Blade Zero a poco più di tre settimane dall'uscita.",
+   "pdf": "pdf/NEURALE-2026-11-28.pdf",
+   "rev": 1795849298
+  },
+  {
    "id": "2026-11-27",
    "numero": 331,
    "titolo": "Un milione di cervelli in orbita",
